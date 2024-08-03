@@ -1,3 +1,3 @@
 # Ready Player n
-`pipx install poetry`
-`poetry install`
+- `pipx install poetry`
+- `poetry install`
