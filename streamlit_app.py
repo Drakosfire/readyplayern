@@ -1,12 +1,9 @@
 import os
 
 import streamlit as st
-from openai import OpenAI
+from groq import Groq
 
 st.title("Colorado Hike Search")
-
-# Set OpenAI API key from Streamlit secrets
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Set a default model
 if "openai_model" not in st.session_state:
@@ -31,13 +28,19 @@ if prompt := st.chat_input("What is up?"):
 
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        stream = client.chat.completions.create(
-            model=st.session_state["openai_model"],
+        groq_client = Groq(
+            # This is the default and can be omitted
+            api_key=os.environ.get("GROQ_API_KEY"),
+        )
+
+        chat_completion = groq_client.chat.completions.create(
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
             ],
-            stream=True,
+            model="llama3-8b-8192",
         )
-        response = st.write_stream(stream)
+        response = chat_completion.choices[0].message.content
+        st.write(response)
+
     st.session_state.messages.append({"role": "assistant", "content": response})
