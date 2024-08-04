@@ -9,6 +9,8 @@ readme = "README.md"
 python = "^3.11"
 twelvelabs = "^0.2.6"
 gradio = "^4.40.0"
+streamlit = "^1.37.0"
+openai = "^1.38.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
