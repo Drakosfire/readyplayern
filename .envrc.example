@@ -1,0 +1,2 @@
+export TL_API_KEY=<twelve-labs-api-key>
+export GROQ_API_KEY=<groq-api-key>
