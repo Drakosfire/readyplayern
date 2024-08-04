@@ -57,9 +57,12 @@ class SearchResult:
 """
 
 
+TL_INDEX_ID = os.getenv("TL_INDEX_ID")
+
+
 def search(
     query,
-    index_id="66ae78fddde98afa0afb290c",
+    index_id=TL_INDEX_ID,
     options=["visual", "conversation", "text_in_video"],
     youtube_link="https://www.youtube.com/watch?v=KKeZPA-Gvs4",
     n=1,
