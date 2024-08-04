@@ -1,15 +1,53 @@
-from twelvelabs import TwelveLabs
 import os
 
-client = TwelveLabs(api_key=os.getenv('TL_API_KEY'))
+from twelvelabs import TwelveLabs
 
-def chatbot_response(message):
-    search_results = client.search.query(
+
+class SearchResult:
+    def __init__(self, item, youtube_link):
+        self.thumbnail_url = f"{item.thumbnail_url}&t={item.start}s"
+        self.youtube_link = f"{youtube_link}&t={item.start}s"
+        self.metadata = item.metadata
+
+    def __repr__(self):
+        return f"SearchResult(thumbnail_url={self.thumbnail_url}, youtube_link={self.youtube_link}, metadata={self.metadata})"
+
+
+def search(
+    query,
     index_id="66ae77216222fe7b53fd787c",
-    query_text=message,
-    options=[]
+    options=["visual", "conversation", "text_in_video"],
+    youtube_link="https://www.youtube.com/watch?v=KKeZPA-Gvs4",
+    n=3,
+):
+    client = TwelveLabs(api_key=os.getenv("TL_API_KEY"))
+    result = client.search.query(
+        index_id=index_id,
+        query=query,
+        options=options,
+        page_limit=n,
     )
 
+    results = []
+    output = []
+    for item in result.data:
+        youtube_link = f"{youtube_link}&t={item.start}s"
+
+        result = SearchResult(item, youtube_link)
+        results.append(result)
+    print(results)
+    thumbnail_url = results[0].thumbnail_url
+    
+    youtube_embed = f"""
+    <embed width=“320” height=“240”
+source src=“{results[0].youtube_link}” title=“YouTube video player” frameborder=“0” allow=“accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture” allowfullscreen>
+    """
+    metadata = results[0].metadata
+    print(f"Metadata = {metadata}")
+    text = metadata[1]["text"]
+    output.append(thumbnail_url)
+    output.append(youtube_embed)
+    output.append(text)
+    return output
 
 
-    return client.chatbot.get_response(message)
