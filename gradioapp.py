@@ -2,6 +2,8 @@ import gradio as gr
 import time
 import apicall
 from apicall import SearchResult
+from IPython.display import Image, display
+import requests
 
 
 sysprompt = "Hi! Tell me what kind of Hidden Gem you'd like to find."
@@ -11,13 +13,14 @@ with gr.Blocks() as demo:
     clear = gr.ClearButton([msg, chatbot])
 
     def respond(message, chat_history):
+        print(f"User Message = {message}")
         bot_message = apicall.search(message)
         print(f"Bot Message = {bot_message}")
-        print(f"Bot Message 0 = {bot_message[0]}")
+        print(f"Thumbnail URL = {bot_message[0]}")
         print(f"Bot Message 1 = {bot_message[1]}")
         # message is the user input
         # thumbnail is the 
-        thumbnail = gr.Image(bot_message[0])
+        thumbnail = gr.Image(value= bot_message[0], type = "filepath")
 
         video = gr.HTML(bot_message[1])
         text = bot_message[2]

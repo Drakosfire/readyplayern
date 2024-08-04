@@ -1,7 +1,23 @@
 import os
-
+import requests
 from twelvelabs import TwelveLabs
+import re
 
+
+def download_image(url, filename):
+    url = re.sub(r'&t.*','',url)
+    response = requests.get(url)
+    file = open(filename, "wb")
+    file.write(response.content)
+    file.close()
+    print("file written to disk")
+
+def get_local_thumbnail(thumbnail_url):
+    local_filename = "thumbnail.jpg"
+    download_image(thumbnail_url, local_filename)
+    abs_path = os.path.abspath(local_filename)
+
+    return abs_path
 
 class SearchResult:
     def __init__(self, item, youtube_link):
@@ -12,10 +28,9 @@ class SearchResult:
     def __repr__(self):
         return f"SearchResult(thumbnail_url={self.thumbnail_url}, youtube_link={self.youtube_link}, metadata={self.metadata})"
 
-
 def search(
     query,
-    index_id="66ae77216222fe7b53fd787c",
+    index_id="66ae78fddde98afa0afb290c",
     options=["visual", "conversation", "text_in_video"],
     youtube_link="https://www.youtube.com/watch?v=KKeZPA-Gvs4",
     n=3,
@@ -37,6 +52,9 @@ def search(
         results.append(result)
     print(results)
     thumbnail_url = results[0].thumbnail_url
+    print("***************",thumbnail_url)
+    thumbnail_path = get_local_thumbnail(thumbnail_url)
+    print(thumbnail_path)
     
     youtube_embed = f"""
     <embed width=“320” height=“240”
@@ -45,7 +63,7 @@ source src=“{results[0].youtube_link}” title=“YouTube video player” fram
     metadata = results[0].metadata
     print(f"Metadata = {metadata}")
     text = metadata[1]["text"]
-    output.append(thumbnail_url)
+    output.append(thumbnail_path)
     output.append(youtube_embed)
     output.append(text)
     return output
