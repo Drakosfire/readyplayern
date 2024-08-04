@@ -15,11 +15,14 @@ with gr.Blocks() as demo:
         print(f"Bot Message = {bot_message}")
         print(f"Bot Message 0 = {bot_message[0]}")
         print(f"Bot Message 1 = {bot_message[1]}")
+        # message is the user input
+        # thumbnail is the 
         thumbnail = gr.Image(bot_message[0])
-        video = gr.Video(bot_message[1])
+
+        video = gr.HTML(bot_message[1])
         text = bot_message[2]
-        chat_history.append([(message,text)])
-        chat_history.append([ (thumbnail, video)])
+        chat_history.append((message,text))
+        chat_history.append((thumbnail, video))
         time.sleep(2)
         return "", chat_history
 
