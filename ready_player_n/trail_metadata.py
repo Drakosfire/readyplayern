@@ -9,7 +9,8 @@ class TrailMetadata:
         minutes_timestamp = seconds_timestamp / 60
         for trail in self.trails:
             if trail["segment-start"] <= minutes_timestamp < trail["segment-end"]:
-                image_file = trail["map-thumbnail"]
-                trail["map-thumbnail"] = f"./trail_map_images/{image_file}"
+                trail.pop("segment-start")
+                trail.pop("segment-end")
+                trail.pop("map-thumbnail")
                 return trail
         return None
