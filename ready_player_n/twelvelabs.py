@@ -16,9 +16,12 @@ class SearchResult:
         return f"SearchResult(thumbnail_url={self.thumbnail_url}, youtube_link={self.youtube_link}, metadata={self.metadata}, trail={self.trail})"
 
 
+TL_INDEX_ID = os.getenv("TL_INDEX_ID")
+
+
 def search(
     query,
-    index_id="66ae77216222fe7b53fd787c",
+    index_id=TL_INDEX_ID,
     options=["visual", "conversation", "text_in_video"],
     youtube_link="https://www.youtube.com/watch?v=KKeZPA-Gvs4",
     n=3,

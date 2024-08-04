@@ -1,2 +1,3 @@
 export TL_API_KEY=<twelve-labs-api-key>
+export TL_INDEX_ID=<twelve-labs-index-id>
 export GROQ_API_KEY=<groq-api-key>
