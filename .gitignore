@@ -1,3 +1,5 @@
+# not using this yet, but don't want it in git
+thumbnail.jpg
 .envrc
 # Byte-compiled / optimized / DLL files
 __pycache__/

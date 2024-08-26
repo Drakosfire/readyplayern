@@ -1,7 +1,7 @@
 import streamlit as st
 from groq import Groq
 
-from apicall import search
+from ready_player_n.twelvelabs import search
 
 st.title("Colorado's Hidden Gems")
 
